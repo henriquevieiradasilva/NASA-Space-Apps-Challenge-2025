@@ -3,12 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <title>Will it Rain on my Parade?</title>
       <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
 
     <input type="text" id="searchBar" placeholder="Search...">
+    <h1 id="title"> WILL IT RAIN ON MY PARADE?</h1>
+    <button id="start">↩<br>travel</button>
+
+    <!-- small calendar in the bottom-right -->
+    <div id="calendar" class="calendar" aria-live="polite">
+      <div class="cal-header">
+        <button id="calPrev" class="cal-nav" aria-label="Mês anterior">◀</button>
+        <div id="calMonthYear" class="cal-monthyear"></div>
+        <button id="calNext" class="cal-nav" aria-label="Próximo mês">▶</button>
+      </div>
+      <div class="cal-weekdays">
+        <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+      </div>
+      <div id="calDays" class="cal-days" role="grid"></div>
+    </div>
 
     <script type="module" src="index.js"></script>
 
