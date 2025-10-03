@@ -129,7 +129,7 @@ def prever_data_futura_anos(data_futura_str, anos=5, janela_dias=7, janela_model
     return previsao
 
 # ==========================================
-# 5) Teste local (não é executado ao importar)
+# 5) Teste local
 # ==========================================
 if __name__ == "__main__":
     data_teste = "2025-10-04"

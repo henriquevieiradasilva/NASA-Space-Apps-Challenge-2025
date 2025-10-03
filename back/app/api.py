@@ -1,4 +1,3 @@
-# API Flask para previsão usando weather_model.py
 from flask import Flask, request, jsonify
 import sys
 import os
