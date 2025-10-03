@@ -23,10 +23,26 @@
         <button id="calNext" class="cal-nav" aria-label="Próximo mês">▶</button>
       </div>
       <div class="cal-weekdays">
-        <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sáb</div>
       </div>
       <div id="calDays" class="cal-days" role="grid"></div>
     </div>
+
+    <!-- time picker -->
+    <div id="selectedDateContainer">
+      <input type="time" id="timePicker">
+    </div>
+    <script>
+        const timePicker = document.getElementById('timePicker');
+
+        timePicker.addEventListener('change', (event) => {
+            const selectedTime = event.target.value;
+            console.log("Horário selecionado:", selectedTime);
+
+            // Alerta simples para demonstrar o valor
+            alert(`O horário escolhido é: ${selectedTime}`);
+        });
+    </script>
 
     <script type="module" src="index.js"></script>
 

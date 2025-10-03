@@ -27,5 +27,6 @@ if (startBtn && typeof startApproach === 'function') {
 	});
 }
 
+
 // Optional: Add event listener to handle window resize
 // window.addEventListener('resize', handleWindowResize, false);
