@@ -10,41 +10,57 @@
       <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
-
-    <input type="text" id="searchBar" placeholder="Search...">
     <h1 id="title"> WILL IT RAIN ON MY PARADE?</h1>
     <button id="start">↩<br>travel</button>
+      
+    <div id="controlPanel">      
+      <input type="text" id="searchBar" placeholder="Search by city, state, country...">
 
-    <!-- small calendar in the bottom-right -->
-    <div id="calendar" class="calendar" aria-live="polite">
-      <div class="cal-header">
-        <button id="calPrev" class="cal-nav" aria-label="Mês anterior">◀</button>
-        <div id="calMonthYear" class="cal-monthyear"></div>
-        <button id="calNext" class="cal-nav" aria-label="Próximo mês">▶</button>
+      <!-- small calendar in the bottom-right -->
+      <div id="calendar" class="calendar" aria-live="polite">
+        <div class="cal-header">
+          <button id="calPrev" class="cal-nav" aria-label="Mês anterior">◀</button>
+          <div id="calMonthYear" class="cal-monthyear"></div>
+          <button id="calNext" class="cal-nav" aria-label="Próximo mês">▶</button>
+        </div>
+        <div class="cal-weekdays">
+          <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sáb</div>
+        </div>
+        <div id="calDays" class="cal-days" role="grid"></div>
       </div>
-      <div class="cal-weekdays">
-        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sáb</div>
-      </div>
-      <div id="calDays" class="cal-days" role="grid"></div>
+
+      <button id="findBtn">FIND</button>
     </div>
 
-    <!-- time picker -->
-    <div id="selectedDateContainer">
-      <input type="time" id="timePicker">
+    <div class="results-panel" id="resultsPanel">
+      <button class="close-results" id="closeResultsBtn">&#10005;</button>
+      <h2>RESULTS</h2>
+
+      <div class="result-section">
+        <h3>Location</h3>
+        <p id="locationName">Jundiaí - São Paulo</p>
+      </div>
+
+      <div class="result-section">
+        <h3>Latitude | Longitude</h3>
+        <p id="latLon">+20 | -20</p>
+      </div>
+
+      <div class="result-section">
+        <h3>Date </h3>
+        <p id="dateTime">--</p>
+      </div>
+
+      <div class="result-section temperature">
+        <h3>Temperature</h3>
+        <p id="tempK">298.15 K</p>
+        <p id="tempC">25 ºC</p>
+        <p id="tempF">77 ºF</p>
+      </div>
     </div>
-    <script>
-        const timePicker = document.getElementById('timePicker');
 
-        timePicker.addEventListener('change', (event) => {
-            const selectedTime = event.target.value;
-            console.log("Horário selecionado:", selectedTime);
 
-            // Alerta simples para demonstrar o valor
-            alert(`O horário escolhido é: ${selectedTime}`);
-        });
-    </script>
 
     <script type="module" src="index.js"></script>
-
   </body>
 </html>

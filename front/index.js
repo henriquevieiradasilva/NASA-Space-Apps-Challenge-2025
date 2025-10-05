@@ -1,6 +1,10 @@
 import { setupPlanet } from "./src/three/planet.js"; 
 import { initCalendar } from "./src/ui/calendar.js";
 import { setupLocationSearch } from './src/ui/searchBar.js';
+import { showControlPanel } from "./src/ui/controlPanel.js"; 
+import { initFindButton } from './src/ui/findButton.js';
+import { initResultsPanel } from './src/ui/resultsPanel.js';
+
 const { earthGroup, startApproach } = setupPlanet();
 
 setupLocationSearch(earthGroup);
@@ -24,9 +28,8 @@ if (startBtn && typeof startApproach === 'function') {
             initCalendar();
             setTimeout(() => cal.classList.add('calendar-visible'), 2500);
         }
+		setTimeout(() => showControlPanel({ revealSearch: true, revealCalendar: true }), 2500);
+		initFindButton();
+		initResultsPanel();
 	});
 }
-
-
-// Optional: Add event listener to handle window resize
-// window.addEventListener('resize', handleWindowResize, false);
