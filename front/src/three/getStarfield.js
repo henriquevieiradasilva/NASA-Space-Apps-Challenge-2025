@@ -17,10 +17,12 @@ export default function getStarfield({ numStars = 500 } = {}) {
       minDist: radius,
     };
   }
+
   const verts = [];
   const colors = [];
   const positions = [];
   let col;
+
   for (let i = 0; i < numStars; i += 1) {
     let p = randomSpherePoint();
     const { pos, hue } = p;
@@ -29,9 +31,11 @@ export default function getStarfield({ numStars = 500 } = {}) {
     verts.push(pos.x, pos.y, pos.z);
     colors.push(col.r, col.g, col.b);
   }
+
   const geo = new THREE.BufferGeometry();
   geo.setAttribute("position", new THREE.Float32BufferAttribute(verts, 3));
   geo.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+
   const mat = new THREE.PointsMaterial({
     size: 0.2,
     vertexColors: true,
@@ -39,6 +43,7 @@ export default function getStarfield({ numStars = 500 } = {}) {
       "./textures/stars/star.png"
     ),
   });
+
   const points = new THREE.Points(geo, mat);
   return points;
 }

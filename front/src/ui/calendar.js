@@ -10,10 +10,8 @@ export function initCalendar(){
 
 	let viewDate = new Date(); // current shown month
 
-	// range selection state (timestamps at midnight local)
-	let rangeStart = null;
-	let rangeEnd = null;
-
+	// single-day selection state (timestamp at midnight local)
+	let selectedTs = null;
 
 	function toMidnightTimestamp(y,m,d){
 		return new Date(y,m,d,0,0,0,0).getTime();
@@ -27,38 +25,27 @@ export function initCalendar(){
 		return `${yyyy}-${mm}-${dd}`;
 	}
 
-	// save selection to a global variable instead of writing to the search input
-	function updateGlobalRange(){
-		// window.calendarRange will be { start: 'YYYY-MM-DD' | null, end: 'YYYY-MM-DD' | null, startTs, endTs }
-		const payload = {
-			start: rangeStart ? formatDate(rangeStart) : null,
-			end: rangeEnd ? formatDate(rangeEnd) : null,
-			startTs: rangeStart || null,
-			endTs: rangeEnd || null,
+	function updateSelectedDate(){
+		const payload = selectedTs ? {
+			date: formatDate(selectedTs),
+		} : {
+			date: null,
 		};
 		try {
-			window.calendarRange = payload;
-		} catch (e) {
-			// ignore if environment doesn't allow window write
+			document.dispatchEvent(new CustomEvent('calendarDateChanged', { detail: payload }));		} 
+		catch (e) {
+			// ignore if envirx`onment doesn't allow window write
 		}
-		// also dispatch a custom event so app code can react
-		const ev = new CustomEvent('calendarRangeChanged', { detail: payload });
-		document.dispatchEvent(ev);
+		
 	}
 
-	function highlightRange(){
+	function highlightSelected(){
 		const buttons = daysContainer.querySelectorAll('button');
 		buttons.forEach(btn => {
-			btn.classList.remove('in-range','range-start','range-end');
+			btn.classList.remove('selected');
 			const ts = Number(btn.dataset.time || 0);
 			if (!ts) return;
-			if (rangeStart && rangeEnd){
-				if (ts >= rangeStart && ts <= rangeEnd) btn.classList.add('in-range');
-				if (ts === rangeStart) btn.classList.add('range-start');
-				if (ts === rangeEnd) btn.classList.add('range-end');
-			} else if (rangeStart){
-				if (ts === rangeStart) btn.classList.add('range-start');
-			}
+			if (selectedTs && ts === selectedTs) btn.classList.add('selected');
 		});
 	}
 
@@ -66,7 +53,7 @@ export function initCalendar(){
 		daysContainer.innerHTML = '';
 		const year = viewDate.getFullYear();
 		const month = viewDate.getMonth();
-		monthYear.textContent = viewDate.toLocaleString('pt-BR',{ month: 'long', year: 'numeric' });
+		monthYear.textContent = viewDate.toLocaleString('us-EN',{ month: 'long', year: 'numeric' });
 
 		const first = new Date(year, month, 1);
 		const last = new Date(year, month + 1, 0);
@@ -91,36 +78,20 @@ export function initCalendar(){
 			if (isToday) btn.classList.add('today');
 
 			btn.addEventListener('click', ()=>{
-				// range selection logic
-				if (!rangeStart){
-					rangeStart = ts;
-					rangeEnd = null;
-				} else if (!rangeEnd){
-					if (ts < rangeStart){
-						// clicked before start -> swap
-						rangeEnd = rangeStart;
-						rangeStart = ts;
-					} else if (ts === rangeStart){
-						// clicked same day -> clear end
-						rangeEnd = null;
-					} else {
-						rangeEnd = ts;
-					}
+				if (selectedTs === ts){
+					selectedTs = null;
 				} else {
-					// both set -> start new selection from this day
-					rangeStart = ts;
-					rangeEnd = null;
+					selectedTs = ts;
 				}
-				highlightRange();
-				updateGlobalRange();
+				highlightSelected();
+				updateSelectedDate();
 				// for demo: log selection
-				console.log('range', rangeStart ? formatDate(rangeStart) : null, rangeEnd ? formatDate(rangeEnd) : null);
 			});
 			daysContainer.appendChild(btn);
 		}
 
 		// after rendering, apply highlight if needed
-		highlightRange();
+		highlightSelected();
 	}
 
 	prevBtn.addEventListener('click', ()=>{ viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth()-1, 1); render(); });

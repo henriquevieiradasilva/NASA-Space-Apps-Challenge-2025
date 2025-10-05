@@ -16,7 +16,7 @@ from concurrent.futures import ThreadPoolExecutor
 def baixar_dados(start, end, lat=-23.08720429991206, lon=-47.2100151415641):
     BASE_URL = "https://power.larc.nasa.gov/api/temporal/hourly/point"
     params = {
-        "parameters": "T2M,RH2M,WS2M,ALLSKY_SFC_SW_DWN,PS,PRECTOTCORR",
+        "parameters": "T2M,RH2M,WS2M,ALLSKY_SFC_SW_DWN,PRECTOTCORR",
         "community": "AG",
         "longitude": lon,
         "latitude": lat,
@@ -68,7 +68,7 @@ def coletar_historico_anos(data_futura_str, anos=5, janela_dias=7, lat=-23.08720
 # ==========================================
 # 3) Treinar modelo e prever
 # ==========================================
-def treinar_e_prever(df_historico, data_futura_str, target="T2M", janela=24, plot=False):
+def treinar_e_prever(df_historico, data_futura_str, target="T2M", janela=24):
     # Normaliza os dados
     scaler = StandardScaler()
     df_scaled = pd.DataFrame(scaler.fit_transform(df_historico), index=df_historico.index, columns=df_historico.columns)
@@ -86,7 +86,7 @@ def treinar_e_prever(df_historico, data_futura_str, target="T2M", janela=24, plo
     X_train, X_test = X[:split], X[split:]
     y_train, y_test = y[:split], y[split:]
 
-    # Treina RandomForest mais rápido
+    # Treina RandomForest
     model = RandomForestRegressor(n_estimators=30, random_state=42, n_jobs=-1)
     model.fit(X_train, y_train)
 
@@ -98,40 +98,54 @@ def treinar_e_prever(df_historico, data_futura_str, target="T2M", janela=24, plo
     preds_real = target_scaler.inverse_transform(preds_test.reshape(-1,1)).flatten()
     rmse = root_mean_squared_error(y_test_real, preds_real)
     mae = mean_absolute_error(y_test_real, preds_real)
-    print(f"RMSE teste: {rmse:.2f}, MAE teste: {mae:.2f}")
-
-    # Gráfico opcional
-    if plot:
-        import matplotlib.pyplot as plt
-        plt.figure(figsize=(12,5))
-        plt.plot(y_test_real, label="Real")
-        plt.plot(preds_real, label="Previsto")
-        plt.legend()
-        plt.title("Previsão - Teste")
-        plt.xlabel("Hora")
-        plt.ylabel("Temperatura (°C)")
-        plt.show()
 
     # Previsão para a data futura
     ultima_janela = df_scaled.iloc[-janela:].values.flatten().reshape(1, -1)
     pred_futura_scaled = model.predict(ultima_janela)
     pred_futura_real = target_scaler.inverse_transform(pred_futura_scaled.reshape(-1,1))[0,0]
-    return pred_futura_real
+
+    return pred_futura_real, rmse, mae
 
 # ==========================================
 # 4) Função principal
 # ==========================================
-def prever_data_futura_anos(data_futura_str, anos=5, janela_dias=7, janela_modelo=24, lat=-23.08720429991206, lon=-47.2100151415641, plot=False):
-    print("Coletando histórico...")
+def prever_data_futura(data_futura_str, anos=5, janela_dias=7, janela_modelo=24,
+                                 lat=-23.08720429991206, lon=-47.2100151415641,
+                                 alvos=["T2M", "PRECTOTCORR", "RH2M", "WS2M", "ALLSKY_SFC_SW_DWN"]):
+    print(f"\n===== Previsão para {data_futura_str} =====\n")
     df_hist = coletar_historico_anos(data_futura_str, anos=anos, janela_dias=janela_dias, lat=lat, lon=lon)
-    print("Treinando modelo e prevendo...")
-    previsao = treinar_e_prever(df_hist, data_futura_str, janela=janela_modelo, plot=plot)
-    return previsao
+    
+    nomes_amigaveis = {
+        "T2M": "Temperatura (°C)",
+        "PRECTOTCORR": "Precipitação (mm)",
+        "RH2M": "Umidade (%)",
+        "WS2M": "Vento (m/s)",
+        "ALLSKY_SFC_SW_DWN": "Neve / Insolação (MJ/m²)"
+    }
+    
+    resultados = {}
+    for alvo in alvos:
+        try:
+            pred, rmse, mae = treinar_e_prever(df_hist, data_futura_str, target=alvo, janela=janela_modelo)
+            resultados[nomes_amigaveis.get(alvo, alvo)] = pred
+            print(f"{nomes_amigaveis.get(alvo, alvo)}:")
+            print(f"  Previsão: {pred:.2f}")
+            print(f"  RMSE teste: {rmse:.2f}, MAE teste: {mae:.2f}\n")
+        except Exception as e:
+            resultados[nomes_amigaveis.get(alvo, alvo)] = None
+            print(f"{nomes_amigaveis.get(alvo, alvo)}: Não foi possível prever ({e})\n")
+    
+    print("===== Fim da previsão =====\n")
+    return resultados
 
 # ==========================================
 # 5) Teste local
 # ==========================================
 if __name__ == "__main__":
     data_teste = "2025-10-04"
-    temp = prever_data_futura_anos(data_teste, lat=-23.55, lon=-46.63, plot=True) 
-    print("Temperatura prevista:", temp)
+    previsoes = prever_data_futura_multialvo(
+        data_teste,
+        lat=-23.55,
+        lon=-46.63,
+        alvos=["T2M", "PRECTOTCORR", "RH2M", "WS2M", "ALLSKY_SFC_SW_DWN"]
+    )

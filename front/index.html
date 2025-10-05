@@ -4,31 +4,67 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <title>Will it Rain on my Parade?</title>
-      <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
-
-    <input type="text" id="searchBar" placeholder="Search...">
-    <h1 id="title"> WILL IT RAIN ON MY PARADE?</h1>
+    <h1 id="title">WILL IT RAIN ON MY PARADE?</h1>
     <button id="start">↩<br>travel</button>
 
-    <!-- small calendar in the bottom-right -->
-    <div id="calendar" class="calendar" aria-live="polite">
-      <div class="cal-header">
-        <button id="calPrev" class="cal-nav" aria-label="Mês anterior">◀</button>
-        <div id="calMonthYear" class="cal-monthyear"></div>
-        <button id="calNext" class="cal-nav" aria-label="Próximo mês">▶</button>
+    <div id="controlPanel">      
+      <input type="text" id="searchBar" placeholder="Search by location...">
+
+      <!-- small calendar in the bottom-right -->
+      <div id="calendar" class="calendar" aria-live="polite">
+        <div class="cal-header">
+          <button id="calPrev" class="cal-nav" aria-label="Mês anterior">◀</button>
+          <div id="calMonthYear" class="cal-monthyear"></div>
+          <button id="calNext" class="cal-nav" aria-label="Próximo mês">▶</button>
+        </div>
+        <div class="cal-weekdays">
+          <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sáb</div>
+        </div>
+        <div id="calDays" class="cal-days" role="grid"></div>
       </div>
-      <div class="cal-weekdays">
-        <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+
+      <button id="findBtn">FIND</button>
+    </div>
+
+    <div class="results-panel" id="resultsPanel">
+      <button class="close-results" id="closeResultsBtn">&#10005;</button>
+      <h2>RESULTS</h2>
+
+      <div class="result-section">
+        <h3>Location</h3>
+        <p id="locationName">Jundiaí - São Paulo</p>
       </div>
-      <div id="calDays" class="cal-days" role="grid"></div>
+
+      <div class="result-section">
+        <h3>Latitude | Longitude</h3>
+        <p id="latLon">+20 | -20</p>
+      </div>
+
+      <div class="result-section">
+        <h3>Date </h3>
+        <p id="dateTime">--</p>
+      </div>
+
+      <div class="result-section temperature">
+        <h3>Temperature</h3>
+        <p id="tempC">-- ºC</p>
+        <p id="tempF">-- ºF</p>
+      </div>
+
+      <div class="result-section additional">
+        <h3>Additional Info</h3>
+        <p id="precipitacao">-- mm</p>
+        <p id="umidade">-- %</p>
+        <p id="vento">-- m/s</p>
+      </div>
     </div>
 
     <script type="module" src="index.js"></script>
-
   </body>
 </html>
