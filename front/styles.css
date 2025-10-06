@@ -633,3 +633,22 @@ body > canvas {
     pointer-events: auto;
 }
 
+/* Destacar mensagem de clima */
+.highlight-weather {
+  font-size: 4rem;           /* maior */
+  font-weight: 900;          /* mais grosso */
+  color: #ffcc00;            /* amarelo vibrante */
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.7); /* sombra para destaque */
+  word-wrap: break-word;
+}
+
+/* Ajuste do painel de resultados */
+#resultsPanel {
+  max-height: none;      /* altura automática */
+  height: auto;
+  overflow: visible;     /* sem scroll */
+  padding: 20px;
+  box-sizing: border-box;
+}

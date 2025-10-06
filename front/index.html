@@ -19,25 +19,15 @@
     <div id="controlPanel">
       <input type="text" id="searchBar" placeholder="Search by location..." />
 
-      <!-- small calendar in the bottom-right -->
       <div id="calendar" class="calendar" aria-live="polite">
         <div class="cal-header">
-          <button id="calPrev" class="cal-nav" aria-label="Mês anterior">
-            ◀
-          </button>
+          <button id="calPrev" class="cal-nav" aria-label="Mês anterior">◀</button>
           <div id="calMonthYear" class="cal-monthyear"></div>
-          <button id="calNext" class="cal-nav" aria-label="Próximo mês">
-            ▶
-          </button>
+          <button id="calNext" class="cal-nav" aria-label="Próximo mês">▶</button>
         </div>
         <div class="cal-weekdays">
-          <div>Sun</div>
-          <div>Mon</div>
-          <div>Tue</div>
-          <div>Wed</div>
-          <div>Thu</div>
-          <div>Fri</div>
-          <div>Sáb</div>
+          <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div>
+          <div>Thu</div><div>Fri</div><div>Sáb</div>
         </div>
         <div id="calDays" class="cal-days" role="grid"></div>
       </div>
@@ -48,6 +38,11 @@
     <div class="results-panel" id="resultsPanel">
       <button class="close-results" id="closeResultsBtn">&#10005;</button>
       <h2>RESULTS</h2>
+
+      <!-- Mensagem amigável em destaque -->
+      <div class="result-section">
+        <p id="weatherMessage" class="highlight-weather">--</p>
+      </div>
 
       <div class="result-section">
         <h3>Location</h3>
@@ -68,59 +63,35 @@
         <h3>Temperature will be...</h3>
         <div class="temperature-display">
           <button id="prev-temp" class="arrow-btn">&lt;</button>
-
           <div class="temp-value-container">
             <p id="tempC" class="active">-- ºC</p>
-
             <p id="tempF">-- ºF</p>
           </div>
-
           <button id="next-temp" class="arrow-btn">&gt;</button>
         </div>
       </div>
 
       <div class="result-container">
         <div class="info-menu">
-          <button data-info-target="precipitacao">
-            Precipitation <br />
-            🌧️
-          </button>
-          <button data-info-target="umidade">
-            Humidity <br />
-            💧
-          </button>
-          <button data-info-target="vento">
-            Wind <br />
-            💨
-          </button>
+          <button data-info-target="precipitacao">Precipitation 🌧️</button>
+          <button data-info-target="umidade">Humidity 💧</button>
+          <button data-info-target="vento">Wind 💨</button>
         </div>
 
         <div class="result-section additional">
           <h3>Additional Info</h3>
-
-          <p id="precipitacao-info" class="hidden">
-            Precipitation:<span id="precipitacao">-- mm</span>
-          </p>
-          <p id="umidade-info" class="hidden">
-            Humidity: <span id="umidade">-- %</span>
-          </p>
-          <p id="vento-info" class="hidden">
-            Wind: <span id="vento">-- m/s</span>
-          </p>
+          <p id="precipitacao-info" class="hidden">Precipitation: <span id="precipitacao">-- mm</span></p>
+          <p id="umidade-info" class="hidden">Humidity: <span id="umidade">-- %</span></p>
+          <p id="vento-info" class="hidden">Wind: <span id="vento">-- m/s</span></p>
         </div>
       </div>
     </div>
 
     <button class="info-button" id="info-button">i</button>
-
     <div class="info-box" id="info-box" onclick="fecharInfobox()">
-      <p>
-        Type a location and select a date to check if the weather is enjoyable
-        for you.
-      </p>
+      <p>Type a location and select a date to check if the weather is enjoyable for you.</p>
     </div>
 
     <script type="module" src="index.js"></script>
-  
   </body>
 </html>

@@ -1,17 +1,20 @@
 // resultsPanel.js
 
+// Mostra o painel
 export function showResultsPanel() {
   const panel = document.getElementById("resultsPanel");
   if (!panel) return;
   panel.classList.add("visible");
 }
 
+// Oculta o painel
 export function hideResultsPanel() {
   const panel = document.getElementById("resultsPanel");
   if (!panel) return;
   panel.classList.remove("visible");
 }
 
+// Define estado de carregamento
 export function setLoading(isLoading = true) {
   const loc = document.getElementById("locationName");
   const latlon = document.getElementById("latLon");
@@ -21,6 +24,7 @@ export function setLoading(isLoading = true) {
   const p = document.getElementById("precipitacao");
   const u = document.getElementById("umidade");
   const v = document.getElementById("vento");
+  const messageEl = document.getElementById("weatherMessage");
 
   if (isLoading) {
     if (loc) loc.textContent = "Loading...";
@@ -31,9 +35,11 @@ export function setLoading(isLoading = true) {
     if (p) p.textContent = "Precipitation: -- mm";
     if (u) u.textContent = "Humidity: -- %";
     if (v) v.textContent = "Wind: -- m/s";
+    if (messageEl) messageEl.textContent = "--";
   }
 }
 
+// Popula resultados e mostra mensagens amigáveis
 export function populateResults(resp = {}) {
   const locationName = resp.locationName || "Unknown Location";
   const dateStr = resp.date || "----/--/--";
@@ -57,6 +63,7 @@ export function populateResults(resp = {}) {
   const p = document.getElementById("precipitacao");
   const u = document.getElementById("umidade");
   const v = document.getElementById("vento");
+  const messageEl = document.getElementById("weatherMessage");
 
   if (loc) loc.textContent = locationName;
   if (latlon) latlon.textContent = `${lat} | ${lon}`;
@@ -64,10 +71,13 @@ export function populateResults(resp = {}) {
 
   if (c) c.textContent = celsius !== null ? `${round(celsius, 2)} ºC` : "-- ºC";
   if (f) f.textContent = fahrenheit !== null ? `${round(fahrenheit, 2)} ºF` : "-- ºF";
-
   if (p) p.textContent = precipitacao !== null ? ` ${round(precipitacao, 2)} mm` : "-- mm";
   if (u) u.textContent = umidade !== null ? `${round(umidade, 2)} %` : "-- %";
   if (v) v.textContent = vento !== null ? `${round(vento, 2)} m/s` : "-- m/s";
+
+  if (messageEl) {
+    messageEl.textContent = getFriendlyWeatherMessage({ temperatura: celsius, precipitacao, vento, umidade });
+  }
 }
 
 // Função de arredondamento
@@ -93,7 +103,26 @@ function formatDate(dateISO) {
   }
 }
 
-// ✅ Inicialização do painel
+// ✅ Mensagens amigáveis de clima
+function getFriendlyWeatherMessage({ temperatura, precipitacao, vento, umidade }) {
+  if (temperatura == null || precipitacao == null || vento == null || umidade == null) {
+    return "Data unavailable";
+  }
+
+  if (temperatura >= 35) return "Very hot 🌞";
+  if (temperatura <= 5) return "Very cold ❄️";
+  if (vento >= 15) return "Very windy 🌬️";
+  if (precipitacao >= 10) return "Very wet 🌧️";
+
+  const uncomfortable =
+    temperatura < 15 || temperatura > 30 || vento > 10 || precipitacao > 5;
+
+  if (uncomfortable) return "Very uncomfortable 😕";
+
+  return "Perfect 😎";
+}
+
+// Inicialização do painel
 export function initResultsPanel() {
   const panel = document.getElementById("resultsPanel");
   if (!panel) return;

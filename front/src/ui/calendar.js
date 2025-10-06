@@ -1,127 +1,123 @@
-export function initCalendar(){
-  const cal = document.getElementById('calendar');
-  if (!cal) return;
+export function initCalendar() {
+  const calendar = document.getElementById('calendar');
+  if (!calendar) return;
 
-  const monthYear = document.getElementById('calMonthYear');
+  const monthYearLabel = document.getElementById('calMonthYear');
   const daysContainer = document.getElementById('calDays');
-  const prevBtn = document.getElementById('calPrev');
-  const nextBtn = document.getElementById('calNext');
+  const prevButton = document.getElementById('calPrev');
+  const nextButton = document.getElementById('calNext');
 
-  let viewDate = new Date(); 
+  let currentViewDate = new Date();
+  let selectedTimestamp = null;
 
-  let selectedTs = null;
-
-  function toMidnightTimestamp(y,m,d){
-    return new Date(y,m,d,0,0,0,0).getTime();
+  function toMidnightTimestamp(year, month, day) {
+    return new Date(year, month, day, 0, 0, 0, 0).getTime();
   }
 
-  function formatDate(ts){
-    const d = new Date(ts);
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth()+1).padStart(2,'0');
-    const dd = String(d.getDate()).padStart(2,'0');
+  function formatDate(timestamp) {
+    const date = new Date(timestamp);
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
     return `${yyyy}-${mm}-${dd}`;
   }
 
-  function updateSelectedDate(){
-    const payload = selectedTs ? { date: formatDate(selectedTs) } : { date: null };
+  function updateSelectedDate() {
+    const payload = selectedTimestamp ? { date: formatDate(selectedTimestamp) } : { date: null };
     try {
       document.dispatchEvent(new CustomEvent('calendarDateChanged', { detail: payload }));
     } catch (e) {
+      // silently fail
     }
   }
 
-  function highlightSelected(){
+  function highlightSelectedDate() {
     const buttons = daysContainer.querySelectorAll('button');
     buttons.forEach(btn => {
       btn.classList.remove('selected');
       const ts = Number(btn.dataset.time || 0);
       if (!ts) return;
-      if (selectedTs && ts === selectedTs) btn.classList.add('selected');
+      if (selectedTimestamp && ts === selectedTimestamp) btn.classList.add('selected');
     });
   }
 
-  function render(){
+  function renderCalendar() {
     daysContainer.innerHTML = '';
-    const year = viewDate.getFullYear();
-    const month = viewDate.getMonth();
-    monthYear.textContent = viewDate.toLocaleString('us-EN',{ month: 'long', year: 'numeric' });
+    const year = currentViewDate.getFullYear();
+    const month = currentViewDate.getMonth();
+    monthYearLabel.textContent = currentViewDate.toLocaleString('en-US', { month: 'long', year: 'numeric' });
 
-    const first = new Date(year, month, 1);
-    const last = new Date(year, month + 1, 0);
-    const startDay = first.getDay();
-    const totalDays = last.getDate();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startDay = firstDay.getDay();
+    const totalDays = lastDay.getDate();
 
     const now = new Date();
     const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
-    const tomorrowTs = tomorrow.getTime();
+    const tomorrowTimestamp = tomorrow.getTime();
 
-    if (selectedTs && selectedTs < tomorrowTs) {
-      selectedTs = null;
+    if (selectedTimestamp && selectedTimestamp < tomorrowTimestamp) {
+      selectedTimestamp = null;
       updateSelectedDate();
     }
 
-    for (let i=0;i<startDay;i++){
+    // Add empty slots for days before the first of the month
+    for (let i = 0; i < startDay; i++) {
       const btn = document.createElement('button');
       btn.className = 'inactive';
       btn.disabled = true;
       daysContainer.appendChild(btn);
     }
 
-    for (let d=1; d<=totalDays; d++){
+    // Add day buttons
+    for (let day = 1; day <= totalDays; day++) {
       const btn = document.createElement('button');
-      btn.textContent = String(d);
-      const ts = toMidnightTimestamp(year, month, d);
+      btn.textContent = String(day);
+      const ts = toMidnightTimestamp(year, month, day);
       btn.dataset.time = String(ts);
 
-      const isToday = (ts === toMidnightTimestamp(now.getFullYear(), now.getMonth(), now.getDate()));
+      const isToday = ts === toMidnightTimestamp(now.getFullYear(), now.getMonth(), now.getDate());
       if (isToday) btn.classList.add('today');
 
-      if (ts < tomorrowTs) {
+      if (ts < tomorrowTimestamp) {
         btn.classList.add('inactive');
         btn.disabled = true;
       }
 
-      btn.addEventListener('click', ()=>{
+      btn.addEventListener('click', () => {
         if (btn.disabled) return;
 
-        if (selectedTs === ts){
-          selectedTs = null;
-        } else {
-          selectedTs = ts;
-        }
-        highlightSelected();
+        selectedTimestamp = selectedTimestamp === ts ? null : ts;
+        highlightSelectedDate();
         updateSelectedDate();
       });
 
       daysContainer.appendChild(btn);
     }
 
+    // Disable previous month button if it's before tomorrow
     const minYear = tomorrow.getFullYear();
     const minMonth = tomorrow.getMonth();
-    if (year < minYear || (year === minYear && month < minMonth)) {
-      prevBtn.disabled = true;
-    } else {
-      prevBtn.disabled = false;
-    }
-    highlightSelected();
+    prevButton.disabled = year < minYear || (year === minYear && month < minMonth);
+
+    highlightSelectedDate();
   }
 
-  prevBtn.addEventListener('click', ()=>{
+  prevButton.addEventListener('click', () => {
     const now = new Date();
-    const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0,0,0,0);
-    const target = new Date(viewDate.getFullYear(), viewDate.getMonth()-1, 1);
-    const lastOfTarget = new Date(target.getFullYear(), target.getMonth() + 1, 0, 0,0,0,0);
+    const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0);
+    const targetDate = new Date(currentViewDate.getFullYear(), currentViewDate.getMonth() - 1, 1);
+    const lastOfTarget = new Date(targetDate.getFullYear(), targetDate.getMonth() + 1, 0, 0, 0, 0, 0);
     if (lastOfTarget.getTime() < tomorrow.getTime()) return;
 
-    viewDate = target;
-    render();
+    currentViewDate = targetDate;
+    renderCalendar();
   });
 
-  nextBtn.addEventListener('click', ()=>{
-    viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth()+1, 1);
-    render();
+  nextButton.addEventListener('click', () => {
+    currentViewDate = new Date(currentViewDate.getFullYear(), currentViewDate.getMonth() + 1, 1);
+    renderCalendar();
   });
 
-  render();
+  renderCalendar();
 };
