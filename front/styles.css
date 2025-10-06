@@ -1,78 +1,111 @@
 :root {
-  --color-menus: rgba(12,12,12,0.82);
-
+  --color-menus: rgba(12, 12, 12, 0.82);
 }
 
+.hide-cursor {
+  cursor: none;
+}
 
 body {
-        margin: 0;
-        background: black;
-        overflow: hidden;
-        font-family: 'Dosis';
-      }
+  margin: 0;
+  background: black;
+  overflow: hidden;
+  font-family: "Dosis";
+}
 body > canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1; /* behind UI */
-      }
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1; /* behind UI */
+}
 
 #title {
-        position: absolute;
-        top: 30%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 16px 32px;
-        font-size: 56px;
-        font-weight: 500;
-        border-radius: 32px;
-        border: none;
-        width: 600px;
-        max-width: 90vw;
-        z-index: 10;
-        color: #fff;
-        text-align: center;
-      } 
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px 32px;
+  font-size: 56px;
+  font-weight: 500;
+  letter-spacing: 0px;
+  border-radius: 32px;
+  border: none;
+  width: 600px;
+  max-width: 90vw;
+  z-index: 10;
+  color: #fff;
+  text-align: center;
+  animation: fadeInSlideDown 2s ease-in-out forwards;
+}
 
-#start{
-        position: absolute;
-        top: 65%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 16px 32px;
-        font-size: 20px;
-        border-radius: 32px;
-        border: none;
-        width: 150px;
-        max-width: 90vw;
-        z-index: 10;
-        background: rgba(30,30,30,0.4);
-        color: #fff;
-        cursor: pointer;
-      }
+@keyframes fadeInSlideDown {
+  /* Estado inicial da animação (0% do tempo) */
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85); /* Começa um pouco abaixo */
+  }
 
+  /* Estado final da animação (100% do tempo) */
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1); /* Termina na posição final */
+  }
+}
+
+#start {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  padding: 16px 32px;
+  font-size: 20px;
+  border-radius: 32px;
+  border: none;
+  width: 150px;
+  max-width: 90vw;
+  z-index: 10;
+  background: rgba(30, 30, 30, 0.4);
+  color: #fff;
+  cursor: pointer;
+  animation: fadeInSlideUp 2s ease-in-out 1.5s forwards;
+}
+
+@keyframes fadeInSlideUp {
+  /* Estado inicial da animação (0% do tempo) */
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(0.85); /* Começa um pouco abaixo */
+  }
+
+  /* Estado final da animação (100% do tempo) */
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1); /* Termina na posição final */
+  }
+}
 #start:hover {
-        background: rgba(50,50,50,0.85);
-      }
+  background: rgba(50, 50, 50, 0.85);
+}
 
 #searchBar {
-        position: absolute;
-        top: 12.5%;
-        left: 50%;
-        transform: translate(-50%, -50%) translateY(-8px);
-        padding: 12px;
-        font-size: 16px;
-        border-radius: 32px;
-        border: none;
-        width: 350px;
-        max-width: 90vw;
-        z-index: 10;
-        background: rgba(245, 245, 245, 0.85);
-        color: black;
-        opacity: 0;
-        transition: opacity 360ms ease, transform 360ms ease;
-        pointer-events: none;
-      }
+  position: absolute;
+  top: 12.5%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(-8px);
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 32px;
+  border: none;
+  width: 350px;
+  max-width: 90vw;
+  z-index: 10;
+  background: rgba(245, 245, 245, 0.85);
+  color: black;
+  opacity: 0;
+  transition: opacity 360ms ease, transform 360ms ease;
+  pointer-events: none;
+}
 
 /* show the search bar with a smooth fade and slight slide */
 .search-visible {
@@ -90,7 +123,8 @@ body > canvas {
 
 /* pop-fade: escala pra frente e some (bom para dar sensação de 'vir pra frente') */
 .pop-fade {
-  transition: opacity 450ms cubic-bezier(.2,.9,.2,1), transform 450ms cubic-bezier(.2,.9,.2,1);
+  transition: opacity 450ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    transform 450ms cubic-bezier(0.2, 0.9, 0.2, 1);
   opacity: 0 !important;
   transform: translate(-50%, -50%) scale(2);
   transform-origin: center center;
@@ -108,14 +142,14 @@ body > canvas {
   transform: translate(-50%, -50%) translateY(0) !important;
   pointer-events: auto !important;
 }
-.cal-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  padding:6px 4px;
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 4px;
 }
-.cal-nav{
+.cal-nav {
   background: transparent;
   border: none;
   color: #fff;
@@ -123,25 +157,48 @@ body > canvas {
   font-size: 14px;
   padding: 6px;
 }
-.cal-monthyear{
-  text-align:center;
-  flex:1;
-  font-weight:700;
+.cal-monthyear {
+  text-align: center;
+  flex: 1;
+  font-weight: 700;
 }
-.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;color:#ccc;padding:4px 0;font-size:11px}
-.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:6px}
-.cal-days button{background:transparent;border:none;color:#fff;padding:6px;border-radius:6px;cursor:pointer}
-.cal-days button:hover{background:rgba(255,255,255,0.04)}
-.cal-days button.selected{background:linear-gradient(135deg,#4facfe66,#00f2fe66);color:#001; font-weight:700}
-.cal-days button.inactive{opacity:0.35}
-    
-
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  color: #ccc;
+  padding: 4px 0;
+  font-size: 11px;
+}
+.cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  padding: 6px;
+}
+.cal-days button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.cal-days button:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.cal-days button.selected {
+  background: linear-gradient(135deg, #4facfe66, #00f2fe66);
+  color: #001;
+  font-weight: 700;
+}
+.cal-days button.inactive {
+  opacity: 0.35;
+}
 
 /*######################################################*/
 /*######################################################*/
 /*######################################################*/
-
-
 
 #controlPanel {
   position: absolute;
@@ -162,7 +219,8 @@ body > canvas {
   opacity: 0;
   transform: translateY(-12px) scale(0.995);
   pointer-events: none;
-  transition: opacity 420ms cubic-bezier(.2,.9,.2,1), transform 420ms cubic-bezier(.2,.9,.2,1);
+  transition: opacity 420ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    transform 420ms cubic-bezier(0.2, 0.9, 0.2, 1);
   will-change: opacity, transform;
 }
 
@@ -201,12 +259,12 @@ body > canvas {
 #controlPanel #searchBar {
   position: static !important;
   transform: none !important;
-  grid-column: 1 / 3;   
+  grid-column: 1 / 3;
   grid-row: 1 / 2;
   align-self: center;
-  height: 48px;          
+  height: 48px;
   width: 100%;
-  max-width: 100%;       
+  max-width: 100%;
   padding: 10px 12px;
   font-size: 16px;
   border-radius: 8px;
@@ -215,8 +273,8 @@ body > canvas {
   color: #000000 !important;
   opacity: 1;
   pointer-events: auto;
-  box-sizing: border-box; 
-  margin: 0;              
+  box-sizing: border-box;
+  margin: 0;
 }
 
 #controlPanel .search-visible {
@@ -226,21 +284,21 @@ body > canvas {
 }
 
 #controlPanel #calendar {
-  position: relative !important; 
-  grid-column: 1 / 3; 
+  position: relative !important;
+  grid-column: 1 / 3;
   grid-row: 2 / 3;
   width: 100%;
   height: 100%;
   padding: 8px;
   box-sizing: border-box;
-  background: rgba(12,12,12,0.82);
+  background: rgba(12, 12, 12, 0.82);
   color: #fff;
   border-radius: 8px;
   overflow: auto;
-  opacity: 1; 
+  opacity: 1;
 }
 
-#controlPanel .calendar-visible{
+#controlPanel .calendar-visible {
   opacity: 1 !important;
   transform: none !important;
   pointer-events: auto !important;
@@ -248,7 +306,7 @@ body > canvas {
 
 #controlPanel #selectedDateContainer {
   position: static !important;
-  grid-column: 1 / 2; 
+  grid-column: 1 / 2;
   grid-row: 3 / 4;
   display: flex;
   align-items: center;
@@ -256,7 +314,7 @@ body > canvas {
   gap: 8px;
   padding: 8px;
   box-sizing: border-box;
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
   border-radius: 8px;
   width: 100%;
   height: 100%;
@@ -265,24 +323,25 @@ body > canvas {
 
 #controlPanel #findBtn {
   position: static !important;
-  grid-column: 2 / 3;  
+  grid-column: 2 / 3;
   grid-row: 3 / 4;
   align-self: center;
   justify-self: center;
   width: calc(100% - 24px);
-  max-width: 220px;
   height: 44px;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(180deg,#a2ffd1,#5effae);
-  color: #000;
+  background: linear-gradient(180deg, #03350e, #016e1e);
+  color: white;
+  font-weight: 600;
+  font-family: "Dosis";
   cursor: pointer;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 #controlPanel #findBtn:hover {
   transform: translateY(-2px);
-  transition: transform .2s ease;
+  transition: transform 0.2s ease;
 }
 
 #controlPanel .calendar,
@@ -290,27 +349,61 @@ body > canvas {
 #controlPanel #selectedDateContainer {
   z-index: 1001;
 }
+/*  CONFIGS MENU  */
 
+/*#########################33
+#######################3
+#######################333
+#######################3*/
+.result-section.additional {
+  margin-top: 20px;
+}
 
+/* Novo CSS para o menu */
+.info-menu {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.info-menu button {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 32px;
+  border: none;
+  width: 150px;
+  max-width: 90vw;
+  z-index: 10;
+  background: rgba(30, 30, 30, 0.4);
+  color: #fff;
+  cursor: pointer;
+}
+
+.info-menu button:hover {
+  background: rgba(50, 50, 50, 0.85);
+}
+
+/* Classe para esconder/mostrar o conteúdo */
+.hidden {
+  display: none;
+}
 
 /*######################################################*/
 /*######################################################*/
 /*######################################################*/
-
-
 
 @media (max-width: 899px) {
   #controlPanel {
     display: grid !important;
-    grid-template-columns: 1fr;      
-    grid-template-rows: auto;      
-    width: 100% !important;         
-    height: auto !important;       
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    width: 100% !important;
+    height: auto !important;
     left: 0 !important;
     top: 0 !important;
     padding: 12px !important;
-    border-radius: 0 !important;   
-    background: rgba(0,0,0,0.7) !important;
+    border-radius: 0 !important;
+    background: rgba(0, 0, 0, 0.7) !important;
     overflow: visible !important;
     visibility: visible !important;
     pointer-events: auto !important;
@@ -339,8 +432,8 @@ body > canvas {
     border-radius: 8px !important;
     background: rgb(255, 255, 255) !important;
     color: #000 !important;
-    opacity: 1 !important;            
-    pointer-events: auto !important;  
+    opacity: 1 !important;
+    pointer-events: auto !important;
     margin: 0 !important;
     box-sizing: border-box !important;
     z-index: 1001 !important;
@@ -354,27 +447,23 @@ body > canvas {
   }
 }
 
-
-
 /*######################################################*/
 /*######################################################*/
 /*######################################################*/
-
-
 
 .results-panel {
   position: fixed;
   top: 0;
   right: 0;
   width: 320px;
-  height: 500px;
+  height: 550px;
   background-color: rgba(25, 25, 25, 0.5);
   color: #ffffff;
   padding: 20px;
   box-sizing: border-box;
   border-radius: 0px 0px 0px 20px;
-  overflow-y: auto;
-  font-family: 'Arial', sans-serif;
+  overflow-y: hidden;
+  font-family: "Dosis";
   opacity: 0;
   transform: translateX(100%);
   pointer-events: none;
@@ -405,6 +494,48 @@ body > canvas {
   margin-bottom: 30px;
 }
 
+.temperature-display {
+  display: flex;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Espaço entre os botões e a temperatura */
+}
+
+.temp-value-container {
+  position: relative;
+  width: 150px; /* Tamanho fixo para evitar "pulo" */
+  height: 50px;
+  overflow: hidden; /* Esconde o que não deve ser visto */
+  align-items: center;
+  text-align: center;
+}
+
+.temp-value-container p {
+  position: absolute;
+  white-space: nowrap;
+  text-align: center;
+  top: 0;
+  left: 0;
+  width: auto;
+  margin: 0;
+  transition: opacity 0.3s ease-in-out; /* Transição suave */
+  opacity: 0;
+}
+
+.temp-value-container p.active {
+  opacity: 1;
+  text-align: center;
+}
+
+.arrow-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #333;
+}
+
 .result-section h3 {
   font-size: 0.85rem;
   color: #ffffff;
@@ -412,7 +543,7 @@ body > canvas {
 }
 
 .result-section p {
-  font-size: 1.20rem;
+  font-size: 1.2rem;
   color: #ffffff;
   margin: 0 0 4px;
 }
@@ -446,3 +577,59 @@ body > canvas {
     display: none;
   }
 }
+
+/* CONFIGS DICAS */
+
+#info-button {
+  display: none; /* começa oculto */
+  position: fixed;
+  opacity: 1;
+  top: 90%;
+  left: 50%;
+  transform: translateX(-50%); /* Centraliza o botão */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(30, 30, 30, 0.4);
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out, opacity 0.5s ease-in-out;
+  font-family: "Dosis";
+}
+.button-visible {
+  opacity: 1 !important;
+  transform: translate(-50%, -50%) translateY(0) !important;
+  pointer-events: auto !important;
+}
+.info-button:hover {
+    transform: translateX(-50%) scale(1.1);
+}
+.info-box {
+    position: fixed;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    width: 300px;
+    max-width: 90%;
+    padding: 20px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+.info-box.visible {
+    opacity: 1 !important;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+

@@ -1,24 +1,41 @@
 import { showResultsPanel, populateResults, setLoading } from "./resultsPanel.js";
 import { locationSearch } from "./searchBar.js";
 import { getDate } from "../../stateManager.js";
+import { showCustomAlert } from "./customAlert.js"; 
 
-export function initFindButton() {
+let currentController = null;
+let lastSearch = { term: null, date: null };
+
+export function initFindButton({ focusOnMarker } = {}) {
   const searchBar = document.getElementById("searchBar");
   const findBtn = document.getElementById("findBtn");
   if (!findBtn) return;
 
   findBtn.addEventListener("click", () => {
-    const searchInput = searchBar.value;
+    let searchInput = searchBar.value.trim();
     const selectedDate = getDate();
 
     const dateStr = typeof selectedDate === "object"
-      ? (selectedDate.date || selectedDate.value || JSON.stringify(selectedDate))
-      : selectedDate;
+      ? (selectedDate.date || selectedDate.value || "").trim()
+      : (selectedDate || "").trim();
 
-    if (!dateStr || !searchInput) {
-      alert("Please select a date from the calendar!");
+    if (!dateStr && !searchInput) {
+      showCustomAlert("Please, select the date and the city");
       return;
     }
+    if (!dateStr) {
+      showCustomAlert("Please select the date on calendar");
+      return;
+    }
+    if (!searchInput) {
+      showCustomAlert("Please, write the city on search bar");
+      return;
+    }
+
+    if (lastSearch.term === searchInput && lastSearch.date === dateStr) {
+      return;
+    }
+    lastSearch = { term: searchInput, date: dateStr };
 
     locationSearch(searchInput);
 
@@ -28,8 +45,16 @@ export function initFindButton() {
         const { lat, lon, displayName } = e.detail;
         const locationName = `${displayName.city}, ${displayName.state}, ${displayName.country}`;
 
+        if (currentController) currentController.abort();
+        currentController = new AbortController();
+        const { signal } = currentController;
+
         setLoading(true);
         showResultsPanel();
+
+        if (typeof focusOnMarker === "function") {
+          try { focusOnMarker(); } catch (err) { console.warn("focusOnMarker failed:", err); }
+        }
 
         const payload = { data: dateStr, lat, lon };
 
@@ -38,13 +63,16 @@ export function initFindButton() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
-            cache: "no-store"
+            cache: "no-store",
+            signal
           });
 
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
           const json = await res.json();
 
-          const result = {
+          if (signal.aborted) return;
+
+          populateResults({
             locationName,
             date: dateStr,
             lat,
@@ -53,11 +81,10 @@ export function initFindButton() {
             precipitacao: json.precipitacao,
             umidade: json.umidade,
             vento: json.vento
-          };
-
-          populateResults(result);
+          });
 
         } catch (err) {
+          if (err.name === "AbortError") return;
           console.warn("API request failed, using fallback.", err);
           populateResults({
             lat,

@@ -12,16 +12,6 @@ export function hideResultsPanel() {
   panel.classList.remove("visible");
 }
 
-export function initResultsPanel() {
-  const panel = document.getElementById("resultsPanel");
-  if (!panel) return;
-
-  const closeBtn = document.getElementById("closeResultsBtn") || panel.querySelector(".close-results");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => hideResultsPanel());
-  }
-}
-
 export function setLoading(isLoading = true) {
   const loc = document.getElementById("locationName");
   const latlon = document.getElementById("latLon");
@@ -75,9 +65,9 @@ export function populateResults(resp = {}) {
   if (c) c.textContent = celsius !== null ? `${round(celsius, 2)} ºC` : "-- ºC";
   if (f) f.textContent = fahrenheit !== null ? `${round(fahrenheit, 2)} ºF` : "-- ºF";
 
-  if (p) p.textContent = precipitacao !== null ? `Precipitation: ${round(precipitacao, 2)} mm` : "Precipitation: -- mm";
-  if (u) u.textContent = umidade !== null ? `Humidity: ${round(umidade, 2)} %` : "Humidity: -- %";
-  if (v) v.textContent = vento !== null ? `Wind: ${round(vento, 2)} m/s` : "Wind: -- m/s";
+  if (p) p.textContent = precipitacao !== null ? ` ${round(precipitacao, 2)} mm` : "-- mm";
+  if (u) u.textContent = umidade !== null ? `${round(umidade, 2)} %` : "-- %";
+  if (v) v.textContent = vento !== null ? `${round(vento, 2)} m/s` : "-- m/s";
 }
 
 // Função de arredondamento
@@ -101,4 +91,45 @@ function formatDate(dateISO) {
   } catch (e) {
     return dateISO;
   }
+}
+
+// ✅ Inicialização do painel
+export function initResultsPanel() {
+  const panel = document.getElementById("resultsPanel");
+  if (!panel) return;
+
+  // Fechar painel
+  const closeBtn = document.getElementById("closeResultsBtn") || panel.querySelector(".close-results");
+  if (closeBtn) closeBtn.addEventListener("click", () => hideResultsPanel());
+
+  // Alternar temperatura
+  const prevBtn = document.getElementById('prev-temp');
+  const nextBtn = document.getElementById('next-temp');
+  const tempC = document.getElementById('tempC');
+  const tempF = document.getElementById('tempF');
+
+  function showCelsius() {
+    tempC.classList.add('active');
+    tempF.classList.remove('active');
+  }
+
+  function showFahrenheit() {
+    tempF.classList.add('active');
+    tempC.classList.remove('active');
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', showCelsius);
+  if (nextBtn) nextBtn.addEventListener('click', showFahrenheit);
+
+  // Alternar info adicional
+  const infoButtons = panel.querySelectorAll('.info-menu button');
+  infoButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.infoTarget + '-info';
+      panel.querySelectorAll('.result-section.additional p').forEach(p => {
+        if (p.id === targetId) p.classList.toggle('hidden');
+        else p.classList.add('hidden');
+      });
+    });
+  });
 }

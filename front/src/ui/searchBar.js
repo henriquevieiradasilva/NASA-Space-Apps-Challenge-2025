@@ -1,4 +1,5 @@
 import { fetchCoordinates } from '../api/cityApi.js';
+import { showCustomAlert } from '../ui/customAlert.js'; 
 
 export async function locationSearch(cityInput) {
   const coords = await fetchCoordinates(cityInput);
@@ -15,6 +16,6 @@ export async function locationSearch(cityInput) {
     };
     document.dispatchEvent(new CustomEvent("locationFound", { detail: payload }));
   } else {
-    alert(`City "${cityInput}" not found.`);
+    showCustomAlert(`City "${cityInput}" not found.`);
   }
 }

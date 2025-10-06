@@ -17,7 +17,7 @@ export function setupPlanet() {
 
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.minDistance = 1.2;
-  controls.enabled = false; // habilitar apenas quando for necessário (ex: Aproximar)
+  controls.enabled = false;
 
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
@@ -62,11 +62,10 @@ export function setupPlanet() {
     requestAnimationFrame(animate);
 
     if (earthMesh.userData.rotating) {
-      earthMesh.rotation.y += 0.004;
       glowMesh.rotation.y += 0.002;
     }
 
-    stars.rotation.y -= 0.001;
+    stars.rotation.y -= 0.00025;
 
     renderer.render(scene, camera);
   }

@@ -1,30 +1,10 @@
 import * as THREE from "three";
 
 export function initFocusOnMarker(camera, controls, earthMesh, markerGroup, duration = 1000) {
-
     let isAnimating = false;
 
-    window.addEventListener("keydown", (e) => {
-        if (e.key.toLowerCase() === "t") {
-            if (!isAnimating) {
-                if (earthMesh.userData.rotating && !earthMesh.userData.rotationLocked) {
-                    earthMesh.userData.rotating = false;
-                    earthMesh.userData.rotationLocked = true;
-                    if (earthMesh.parent) {
-                        earthMesh.parent.children.forEach(child => {
-                            if (child !== earthMesh && child.userData) {
-                                child.userData.rotating = false;
-                                child.userData.rotationLocked = true;
-                            }
-                        });
-                    }
-                }
-                focusSmooth();
-            }
-        }
-    });
-
     function focusSmooth() {
+        if (isAnimating) return;
         isAnimating = true;
 
         const targetWorldPos = new THREE.Vector3();
@@ -47,6 +27,7 @@ export function initFocusOnMarker(camera, controls, earthMesh, markerGroup, dura
             const ease = t * t * (3 - 2 * t);
 
             camera.position.lerpVectors(startPos, finalPos, ease);
+
             controls.target.copy(center);
             controls.update();
 
@@ -59,4 +40,22 @@ export function initFocusOnMarker(camera, controls, earthMesh, markerGroup, dura
 
         requestAnimationFrame(animate);
     }
+
+    return {
+        focusOnMarker: () => {
+            if (earthMesh.userData.rotating && !earthMesh.userData.rotationLocked) {
+                earthMesh.userData.rotating = false;
+                earthMesh.userData.rotationLocked = true;
+                if (earthMesh.parent) {
+                    earthMesh.parent.children.forEach(child => {
+                        if (child !== earthMesh && child.userData) {
+                            child.userData.rotating = false;
+                            child.userData.rotationLocked = true;
+                        }
+                    });
+                }
+            }
+            focusSmooth();
+        }
+    };
 }

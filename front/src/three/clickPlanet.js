@@ -8,7 +8,6 @@ export default function initClickPlanet({ domElement, camera, earthMesh, glowMes
     const clickThresholdMs = 200;
     let isDragging = false;
 
-
     if (typeof earthMesh.userData.rotating === "undefined") earthMesh.userData.rotating = true;
     if (typeof earthMesh.userData.rotationLocked === "undefined") earthMesh.userData.rotationLocked = false;
 

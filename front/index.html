@@ -3,33 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
     <title>Will it Rain on my Parade?</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <h1 id="title">WILL IT RAIN ON MY PARADE?</h1>
-    <button id="start">↩<br>travel</button>
+    <button id="start">↩<br />travel</button>
 
-    <div id="controlPanel">      
-      <input type="text" id="searchBar" placeholder="Search by location...">
+    <div id="controlPanel">
+      <input type="text" id="searchBar" placeholder="Search by location..." />
 
       <!-- small calendar in the bottom-right -->
       <div id="calendar" class="calendar" aria-live="polite">
         <div class="cal-header">
-          <button id="calPrev" class="cal-nav" aria-label="Mês anterior">◀</button>
+          <button id="calPrev" class="cal-nav" aria-label="Mês anterior">
+            ◀
+          </button>
           <div id="calMonthYear" class="cal-monthyear"></div>
-          <button id="calNext" class="cal-nav" aria-label="Próximo mês">▶</button>
+          <button id="calNext" class="cal-nav" aria-label="Próximo mês">
+            ▶
+          </button>
         </div>
         <div class="cal-weekdays">
-          <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sáb</div>
+          <div>Sun</div>
+          <div>Mon</div>
+          <div>Tue</div>
+          <div>Wed</div>
+          <div>Thu</div>
+          <div>Fri</div>
+          <div>Sáb</div>
         </div>
         <div id="calDays" class="cal-days" role="grid"></div>
       </div>
 
-      <button id="findBtn">FIND</button>
+      <button id="findBtn">FIND 🔍</button>
     </div>
 
     <div class="results-panel" id="resultsPanel">
@@ -47,24 +60,67 @@
       </div>
 
       <div class="result-section">
-        <h3>Date </h3>
+        <h3>Date</h3>
         <p id="dateTime">--</p>
       </div>
 
       <div class="result-section temperature">
-        <h3>Temperature</h3>
-        <p id="tempC">-- ºC</p>
-        <p id="tempF">-- ºF</p>
+        <h3>Temperature will be...</h3>
+        <div class="temperature-display">
+          <button id="prev-temp" class="arrow-btn">&lt;</button>
+
+          <div class="temp-value-container">
+            <p id="tempC" class="active">-- ºC</p>
+
+            <p id="tempF">-- ºF</p>
+          </div>
+
+          <button id="next-temp" class="arrow-btn">&gt;</button>
+        </div>
       </div>
 
-      <div class="result-section additional">
-        <h3>Additional Info</h3>
-        <p id="precipitacao">-- mm</p>
-        <p id="umidade">-- %</p>
-        <p id="vento">-- m/s</p>
+      <div class="result-container">
+        <div class="info-menu">
+          <button data-info-target="precipitacao">
+            Precipitation <br />
+            🌧️
+          </button>
+          <button data-info-target="umidade">
+            Humidity <br />
+            💧
+          </button>
+          <button data-info-target="vento">
+            Wind <br />
+            💨
+          </button>
+        </div>
+
+        <div class="result-section additional">
+          <h3>Additional Info</h3>
+
+          <p id="precipitacao-info" class="hidden">
+            Precipitation:<span id="precipitacao">-- mm</span>
+          </p>
+          <p id="umidade-info" class="hidden">
+            Humidity: <span id="umidade">-- %</span>
+          </p>
+          <p id="vento-info" class="hidden">
+            Wind: <span id="vento">-- m/s</span>
+          </p>
+        </div>
       </div>
     </div>
 
+    <button class="info-button" id="info-button">i</button>
+
+    <div class="info-box" id="info-box" onclick="fecharInfobox()">
+      <p>
+        Type a location and select a date to check if the weather is enjoyable
+        for you.
+      </p>
+    </div>
+
     <script type="module" src="index.js"></script>
+  
   </body>
 </html>
