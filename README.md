@@ -2,135 +2,136 @@
 
 ## 🌧️ Will it Rain on my Parade?
 
-Imagine a situação:
+Imagine this scenario:
 
-Você marcou um piquenique com os amigos no parque, vai levar o cachorro para passear ou planejou um evento ao ar livre.
+You’ve planned a picnic with friends in the park, want to take your dog for a walk, or organized an outdoor event.
 
-No entanto, surge a dúvida: **será que vai chover?**
+But then the question arises: **will it rain?**
 
-O **“Will it Rain on my Parade?”** foi criado para responder exatamente essa pergunta!
+**“Will it Rain on my Parade?”** was created to answer exactly that!
 
-Nossa solução oferece previsões climáticas personalizadas para qualquer localidade e data, usando uma interface interativa, visualmente atraente e baseada em dados reais da NASA combinados com inteligência artificial.
-
----
-
-## O Conceito
-
-Durante o **NASA Space Apps Challenge 2025**, nossa equipe pensou em como aproximar as pessoas da ciência de forma simples e visual.  
-Queríamos transformar a experiência de “ver o clima” em algo mais **educativo**, **imersivo** e **divertido**.  
-
-O **Will it Rain on my Parade?** é uma aplicação web que integra:
-- Visualização 3D realista da Terra (incluindo rotação e textura).
-- Dados reais de observação da NASA POWER API.
-- Modelos de aprendizado de máquina (Machine Learning).
-- Uma interface intuitiva projetada para todos os usuários.
+Our solution offers custom weather forecasts for any location and date, through an interactive, visually appealing interface powered by **NASA data and AI**. 🤖🌍
 
 ---
 
-## Como funciona
+## 💡 The Concept
 
-O funcionamento é uma combinação entre **geolocalização**, **consulta a APIs**, e **modelagem preditiva**.  
+During the **NASA Space Apps Challenge 2025**, our team wanted to bring people closer to science in a **simple and visual way**.  
 
-1. O usuário digita o nome de uma **cidade** e escolhe uma **data** no futuro.  
-2. O sistema consulta a **API Nominatim (OpenStreetMap)** para obter latitude e longitude da cidade.  
-3. O backend em Python recebe as coordenadas e faz uma requisição à **NASA POWER API**, coletando dados históricos de clima (temperatura, precipitação, vento, umidade, radiação solar etc.).  
-4. Um modelo de **Machine Learning (Random Forest Regressor)** desenvolvido em python usando scikitlearn analisa o histórico e prevê como estarão as condições meteorológicas na data informada.  
-5. O resultado é enviado de volta ao frontend e exibido de forma visual:
-   - 🌐 Um marcador aparece no globo;
-   - 📊 Um painel mostra as variáveis climáticas previstas;
-   - 🌡 Por fim, uma mensagem interpretativa resume a previsão (ex.: *Perfect*, *Very wet*, *Very windy*, *Very hot*).
+We aimed to make the experience of "checking the weather" **educational**, **immersive**, and **fun**. 
 
----
-
-## Guia de uso
-
-1. Acesse o site e clique em **“Travel”** para começar.  
-2. O globo 3D se aproxima suavemente, e o painel de busca aparece.  
-3. Digite o nome de uma **cidade** (ex: *Paris*, *Tokyo*, *São Paulo*).  
-4. Escolha uma **data futura** no calendário.  
-5. Clique em **“Find 🔍”**.  
-6. O planeta gira até o local escolhido e marca o ponto no mapa.  
-7. O painel lateral mostra:
-   - Temperatura média prevista  
-   - Umidade relativa do ar  
-   - Velocidade do vento  
-   - Precipitação esperada  
-8. Uma mensagem resume o clima de forma amigável:
-   - “Perfect 😎” – tempo agradável  
-   - “Very wet 🌧️” – alta chance de chuva  
-   - “Very windy 🌬️” – ventos fortes  
-   - “Very hot 🌞” – calor intenso  
-
+**Will it Rain on my Parade?** is a web application that integrates:
+- Realistic 3D Earth visualization (including rotation and texture)  
+- Real NASA POWER API observation data  
+- Machine Learning models  
+- An intuitive interface designed for all users  
 
 ---
 
-## Tecnologias utilizadas
+## ⚙️ How It Works
+
+The system combines **geolocation**, **API queries**, and **predictive modeling**.
+
+1. The user enters a **city** and selects a **future date**.
+2. The system uses the **Nominatim API (OpenStreetMap)** to get the city’s latitude and longitude.  
+3. The Python backend fetches historical weather data from the **NASA POWER API** (temperature, precipitation, wind, humidity, solar radiation, etc.).
+4. A **Machine Learning model (Random Forest Regressor)** analyzes historical patterns to predict the weather for the selected date.   
+5. The results are sent to the frontend and displayed visually:  
+   - 🌐 A marker appears on the globe  
+   - 📊 A panel shows predicted weather variables  
+   - 🌡 A friendly message summarizes the forecast (e.g., *Perfect*, *Very wet*, *Very windy*, *Very hot*)  
+
+---
+
+## 📝 User Guide
+
+1. Access the site and click **“Travel”** to start.  
+2. The 3D globe zooms in, and the search panel appears.  
+3. Enter a **city name** (e.g., *Paris*, *Tokyo*, *São Paulo*).  
+4. Choose a **future date** from the calendar.  
+5. Click **“Find 🔍”**.  
+6. The globe rotates to the chosen location, marking the point.  
+7. The side panel shows:  
+   - 🌡 Average predicted temperature  
+   - 💧 Relative humidity  
+   - 🌬 Wind speed  
+   - 🌧 Expected precipitation  
+8. A message summarizes the weather:  
+   - “Perfect 😎” – pleasant weather  
+   - “Very wet 🌧️” – high chance of rain  
+   - “Very windy 🌬️” – strong winds  
+   - “Very hot 🌞” – intense heat  
+
+
+---
+
+## 🛠️ Technologies 
 
 ### Frontend
 
-| Tecnologia | Função |
-|-------------|--------|
-| **HTML5 / CSS3 / JavaScript (ES6+)** | Estrutura e comportamento da interface. |
-| **Three.js** | Renderização 3D do planeta Terra com texturas e iluminação realista. |
-| **Fetch API** | Comunicação com o backend Flask (requisições REST). |
-| **OpenStreetMap / Nominatim API** | Conversão de nomes de cidades para coordenadas geográficas. |
-| **Custom UI & Animations** | Efeitos de transição, botões animados e alertas personalizados. |
+| Technology | Purpose |
+|------------|---------|
+| **HTML5 / CSS3 / JavaScript (ES6+)** | Structure and behavior of the interface |
+| **Three.js** | 3D Earth rendering with realistic textures and lighting |
+| **Fetch API** | Communication with Python backend via REST requests |
+| **OpenStreetMap / Nominatim API** | Converts city names to geographic coordinates |
+| **Custom UI & Animations** | Smooth transitions, animated buttons, and alerts |
 
-Destaques do frontend:
-- O planeta 3D possui **textura de relevo**, **brilho atmosférico** e **campo estelar animado**.
-- O movimento da câmera é suave, simulando uma “viagem pelo espaço”.
-- A interface é **totalmente responsiva**, adaptando-se a desktop e mobile.
+**Frontend Highlights:**  
+- 3D planet with **terrain textures**, **atmospheric glow**, and **animated starfield** ✨  
+- Smooth camera movement simulates a “space journey” 
+- Fully **responsive design** for desktop and mobile 
 
 ---
 
 ### Backend
 
-| Tecnologia | Função |
-|-------------|--------|
-| **Python 3** | Linguagem principal do backend. |
-| **Flask + Flask-CORS** | Criação da API RESTful que conecta o frontend à IA. |
-| **scikit-learn** | Implementação do modelo de Machine Learning (Random Forest). |
-| **pandas / numpy** | Manipulação e análise de dados meteorológicos. |
-| **NASA POWER API** | Fonte de dados históricos de clima (satélite e estação). |
+| Technology | Purpose |
+|------------|---------|
+| **Python 3** | Main backend language |
+| **Flask + Flask-CORS** | RESTful API connecting frontend to AI |
+| **scikit-learn** | Machine Learning model (Random Forest) |
+| **pandas / numpy** | Weather data processing and analysis |
+| **NASA POWER API** | Historical weather data from satellite and stations |
 
-Destaques do backend:
-- O modelo treina automaticamente com dados reais dos últimos 5 anos.
-- São previstos quatro parâmetros principais:
-  - Temperatura (°C)
-  - Precipitação (mm/dia)
-  - Umidade relativa (%)
-  - Velocidade do vento (m/s)
-- Retorna os resultados em formato JSON padronizado.
-
----
-
-## Inteligência Artificial e Previsão
-
-O coração do projeto é a Inteligência Artificial (IA), responsável por transformar dados históricos brutos da NASA em uma previsão climática preditiva e acionável. Nosso modelo não apenas reporta o clima, mas aprende com ele para antecipar as condições futuras com maior precisão para o seu evento.
-
-Nosso modelo de Machine Learning é treinado com dados históricos dos últimos 5 anos fornecidos pela NASA, capturando padrões sazonais e ciclos anuais de:
-- Temperatura (T2M)
-- Precipitação (PRECTOTCORR)
-- Umidade Relativa (RH2M)
-- Velocidade do Vento (WS2M)
-
-
-Para cada data futura solicitada, o pipeline:
-- Coleta os dados históricos da janela de anos anteriores.
-- Pré-processa os dados para o formato ideal do modelo.
-- Prevê os quatro parâmetros principais para a coordenada.
+**Backend Highlights:**  
+- Model trains automatically with the last 5 years of real data  
+- Predicts 4 main parameters:  
+  - 🌡 Temperature (°C)  
+  - 🌧 Precipitation (mm/day)  
+  - 💧 Relative humidity (%)  
+  - 🌬 Wind speed (m/s)  
+- Returns results in standardized JSON format  
 
 ---
 
-## Instalação e Execução
+## 🤖 AI and Forecasting
 
-### 1. Clonar o repositório
+At the core is **Artificial Intelligence**, which transforms raw NASA data into actionable weather predictions.  
+Our ML model **learns from historical patterns** to forecast weather accurately for your planned event.  
+
+The model is trained with the last 5 years of NASA data, capturing **seasonal patterns**:  
+- 🌡 Temperature (T2M)  
+- 🌧 Precipitation (PRECTOTCORR)  
+- 💧 Relative Humidity (RH2M)  
+- 🌬 Wind Speed (WS2M)  
+
+For each future date, the pipeline:  
+1. Collects historical data from previous years  
+2. Preprocesses it for the model  
+3. Predicts the four main weather parameters for the given coordinates  
+
+---
+
+## ⚡ Installation & Run
+
+### 1️⃣ Clone the repository
 ```bash
 git clone https://github.com/seuusuario/NASA-Space-Apps-Challenge-2025.git
 cd NASA-Space-Apps-Challenge-2025
 ```
 
-### 2. Configurar o backend
+### 2️⃣ Setup the backend
 
 ```bash
 cd backend
@@ -140,25 +141,25 @@ pip install -r requirements.txt
 python api.py
 ```
 
-O backend estará disponível em:
+Backend will be available at:
 ```bash
 http://127.0.0.1:5000
 ```
 
-### 3️. Executar o frontend
-Digite uma cidade (ex: Lisboa) e uma data.
+### 3️⃣ Run the frontend
+Enter a city (e.g., Lisbon) and a date.
 
-O sistema exibirá o ponto no globo e o painel de resultados. 🌍💫
+The globe will mark the location and display the forecast panel. 🌍💫
 
-## Autores (Team TPM)
+## 👥 Authors (Team TPM)
 - Alisson Moura
 - Henrique Vieira
 - Lucas Verissimo
 
-## Licença
+## 📄 License
 
-Distribuído sob a licença **MIT**.
+Distributed under the **MIT License**.
 
-Créditos aos dados da *NASA POWER Project* e *OpenStreetMap*.
+Credits to *NASA POWER Project* and *OpenStreetMap*.
 
 
